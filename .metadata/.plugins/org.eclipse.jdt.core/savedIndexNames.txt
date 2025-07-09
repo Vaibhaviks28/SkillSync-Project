@@ -1,0 +1,2 @@
+INDEX VERSION 1.134+D:\Java(25B119DCH)\SkillSyncProject\SkillSync-Project\.metadata\.plugins\org.eclipse.jdt.core
+1288848795.index
