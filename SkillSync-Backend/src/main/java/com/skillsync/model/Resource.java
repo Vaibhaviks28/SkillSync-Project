@@ -12,13 +12,13 @@ public class Resource {
     private Long id;
 
     private String title;
-    private String type;   // e.g., video/pdf
+    private String type;   
     private String url;
 
-    private String folderName;   // example: Java, Python, etc.
+    private String folderName;   
 
     @Column(length = 100000)
-    private byte[] resourceFile;
+    private byte[] resourceFile; 
 
     @Column(nullable = false)
     private Boolean isCompleted = false;   //  NEW FLAG
@@ -42,7 +42,6 @@ public class Resource {
         this.isCompleted = isCompleted;
     }
 
-    // --- Getters + Setters ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -4,7 +4,6 @@ public class UserSkillRequest {
     private Long userId;
     private Long skillId;
 
-    // Constructors
     public UserSkillRequest() {}
 
     public UserSkillRequest(Long userId, Long skillId) {
@@ -12,7 +11,6 @@ public class UserSkillRequest {
         this.skillId = skillId;
     }
 
-    // Getters and Setters
     public Long getUserId() {
         return userId;
     }

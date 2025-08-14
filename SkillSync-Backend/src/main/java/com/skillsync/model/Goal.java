@@ -107,7 +107,6 @@ public class Goal {
 
 	public Goal() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Goal(Long id, User user, String title, String description, LocalDate startDate, LocalDate endDate,

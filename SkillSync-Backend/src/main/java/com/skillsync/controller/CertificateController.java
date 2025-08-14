@@ -24,10 +24,6 @@ public class CertificateController {
     @Autowired
     private SkillRepository skillRepository;
 
-    /**
-     * GET /api/certificate/{userId}/{skillId}
-     * Generates a PDF certificate for the given user + skill
-     */
     @GetMapping("/{userId}/{skillId}")
     public ResponseEntity<Resource> getCertificate(@PathVariable Long userId, @PathVariable Long skillId) {
         User user = userRepository.findById(userId).orElse(null);

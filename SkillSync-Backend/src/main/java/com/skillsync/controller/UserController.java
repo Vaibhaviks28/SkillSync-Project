@@ -14,32 +14,29 @@ import com.skillsync.model.User;
 import com.skillsync.repository.UserRepository;
 import com.skillsync.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:3000") 
-// Allow frontend (React running on port 3000) to call this API
-@RestController // This is a REST API controller
-@RequestMapping("/api/users") // Base path for all user-related APIs
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
-	@Autowired
+    @Autowired
     private UserService userService;
 
-	@Autowired
+    @Autowired
     private UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            // Basic validation: email must have @
             if (user.getEmail() == null || !user.getEmail().contains("@")) {
                 throw new BadRequestException("Email is invalid or missing.");
             }
 
-            // Check if email already exists
             if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered.");
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Email already registered.");
             }
 
-            // Create user
             User savedUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 

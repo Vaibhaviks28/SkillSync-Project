@@ -25,7 +25,7 @@ public class CertificateService {
 
     public ResponseEntity<Resource> generateCertificate(User user, Skill skill) {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream(); //used to stream the PDF content
             Document document = new Document(PageSize.A4, 60, 60, 60, 60);
             PdfWriter.getInstance(document, out);
 

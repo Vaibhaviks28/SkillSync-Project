@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity 
 @Table(name = "skills")
 public class Skill {
     @Id
@@ -29,16 +29,16 @@ public class Skill {
     private String estimatedTime;
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"skill", "user"}) // prevents deep nesting in userSkills
+    @JsonIgnoreProperties({"skill", "user"}) 
     private List<UserSkill> userSkills;
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
-    @JsonIgnoreProperties({"createdSkills", "userSkills", "goals", "feedbacks"}) // prevent loops
+    @JsonIgnoreProperties({"createdSkills", "userSkills", "goals", "feedbacks"}) 
     private User creator;
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("skill") // stops infinite loop with Resource
+    @JsonIgnoreProperties("skill") 
     private List<Resource> resources;
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)

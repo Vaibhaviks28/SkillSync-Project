@@ -23,7 +23,6 @@ public class UserSkillController {
 	@Autowired
     private UserSkillService userSkillService;
 
-    //  POST: Assign skill to user
 	@PostMapping
 	public ResponseEntity<UserSkill> assignSkillToUser(@RequestBody UserSkill userSkill) {
 	    UserSkill created = userSkillService.assignSkillToUser(userSkill);
@@ -31,14 +30,12 @@ public class UserSkillController {
 	}
 
 
-    //  GET: All skills of a user
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserSkill>> getSkillsOfUser(@PathVariable Long userId) {
         List<UserSkill> userSkills = userSkillService.getSkillsOfUser(userId);
         return ResponseEntity.ok(userSkills);
     }
 
-    //  GET: All users who have a specific skill
     @GetMapping("/skill/{skillId}")
     public ResponseEntity<List<UserSkill>> getUsersOfSkill(@PathVariable Long skillId) {
         return ResponseEntity.ok(userSkillService.getUsersOfSkill(skillId));

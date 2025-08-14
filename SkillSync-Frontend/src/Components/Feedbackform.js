@@ -3,8 +3,10 @@ import axios from 'axios';
 
 function FeedbackForm() {
   const [skills, setSkills] = useState([]);
+  const [goals, setGoals] = useState([]);
   const [formData, setFormData] = useState({
     skillId: '',
+    goalId: '',
     rating: '',
     comment: ''
   });
@@ -14,6 +16,7 @@ function FeedbackForm() {
 
   useEffect(() => {
     if (userId) {
+      // Fetch skills
       axios.get(`http://localhost:8080/api/user-skills/user/${userId}`)
         .then(res => {
           const userSkills = res.data.map(us => ({
@@ -23,6 +26,17 @@ function FeedbackForm() {
           setSkills(userSkills);
         })
         .catch(err => console.error('Error fetching skills:', err));
+
+      // Fetch goals
+      axios.get(`http://localhost:8080/api/goals/user/${userId}`)
+        .then(res => {
+          const userGoals = res.data.map(g => ({
+            id: g.id,
+            title: g.title
+          }));
+          setGoals(userGoals);
+        })
+        .catch(err => console.error('Error fetching goals:', err));
     }
   }, [userId]);
 
@@ -32,6 +46,7 @@ function FeedbackForm() {
 
   const validateForm = () => {
     if (!formData.skillId) return 'Please select a skill';
+    if (!formData.goalId) return 'Please select a goal';
     if (!formData.rating) return 'Please select a rating';
     if (!formData.comment.trim()) return 'Please enter a comment';
     return null;
@@ -54,15 +69,16 @@ function FeedbackForm() {
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post('http://localhost:8080/api/feedback', {
+      await axios.post('http://localhost:8080/api/feedback', {
         userId: parseInt(userId),
         skillId: parseInt(formData.skillId),
+        goalId: parseInt(formData.goalId),
         message: formData.comment,
         rating: parseInt(formData.rating)
       });
 
       setMessage('Feedback submitted successfully!');
-      setFormData({ skillId: '', rating: '', comment: '' });
+      setFormData({ skillId: '', goalId: '', rating: '', comment: '' });
     } catch (error) {
       const errorMessage = error.response?.data?.message || 
                          error.response?.data?.error || 
@@ -92,6 +108,7 @@ function FeedbackForm() {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* Skill Selection */}
         <div className="mb-3">
           <label htmlFor="skillId" className="form-label">Select Skill</label>
           <select
@@ -108,6 +125,24 @@ function FeedbackForm() {
           </select>
         </div>
 
+        {/* Goal Selection */}
+        <div className="mb-3">
+          <label htmlFor="goalId" className="form-label">Select Goal</label>
+          <select
+            className="form-select"
+            name="goalId"
+            value={formData.goalId}
+            onChange={handleChange}
+            required
+          >
+            <option value="">-- Choose Goal --</option>
+            {goals.map(goal => (
+              <option key={goal.id} value={goal.id}>{goal.title}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Rating */}
         <div className="mb-3">
           <label htmlFor="rating" className="form-label">Rating (1-5)</label>
           <select
@@ -124,6 +159,7 @@ function FeedbackForm() {
           </select>
         </div>
 
+        {/* Comment */}
         <div className="mb-3">
           <label htmlFor="comment" className="form-label">Comment</label>
           <textarea
@@ -139,6 +175,7 @@ function FeedbackForm() {
           <small className="text-muted">Minimum 10 characters</small>
         </div>
 
+        {/* Submit Button */}
         <button 
           type="submit" 
           className="btn btn-primary"

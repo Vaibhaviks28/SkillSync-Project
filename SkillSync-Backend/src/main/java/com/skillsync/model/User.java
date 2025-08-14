@@ -14,52 +14,42 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity // Ye batata hai ki ye class ek DB entity hai
-@Table(name = "users") // Table ka naam "users" hoga DB me
+@Entity 
+@Table(name = "users") 
 public class User {
 
-    @Id // Primary key
+    @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto increment ID
     private Long id;
 
-    private String name; // User ka naam
-    private String email; // User ka email
+    private String name; 
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) 
-    // Password sirf request ke time accept hoga, response me kabhi bhejenge nahi (security)
     private String password;
 
-    private String role; // e.g., "admin" ya "user"
-
+    private String role;
     @JsonProperty("profilePicture")
-    // JSON me property ka naam "profilePicture" hoga
     private String profilePicture;
 
-    private Timestamp createdAt; // Account creation time
+    private Timestamp createdAt;
 
     @OneToMany(mappedBy = "creator") 
     @JsonIgnoreProperties("creator") 
-    // Ye mapping Skills table se hai — ek user ne bohot saare skills banaye ho sakte hain
-    // "creator" field Skill entity me foreign key store karegi
     private List<Skill> createdSkills;
 
     @OneToMany(mappedBy = "user") 
     @JsonIgnoreProperties("user") 
-    // Ye mapping UserSkill table se hai — ek user ke multiple skill connections ho sakte hain
     private List<UserSkill> userSkills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
     @JsonIgnoreProperties("user") 
-    // Ye mapping Goal table se hai — ek user ke multiple goals ho sakte hain
-    // Cascade = agar user delete ho jaye toh uske goals bhi delete ho jaye
     private List<Goal> goals;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
     @JsonIgnoreProperties("user") 
-    // Ye mapping Feedback table se hai — user multiple feedback de sakta hai
     private List<Feedback> feedbacks;
 
-    // --------- Getters & Setters ----------
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }

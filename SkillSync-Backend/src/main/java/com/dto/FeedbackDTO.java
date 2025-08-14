@@ -1,6 +1,5 @@
 package com.dto;
 
-//dto/FeedbackDTO.java
 
 import java.sql.Timestamp;
 
@@ -13,7 +12,6 @@ public class FeedbackDTO {
  private Integer rating;
  private Timestamp submittedAt;
 
- // Constructors
  public FeedbackDTO(Long id, String userName, String skillName, String goalTitle,
                     String message, Integer rating, Timestamp submittedAt) {
      this.id = id;

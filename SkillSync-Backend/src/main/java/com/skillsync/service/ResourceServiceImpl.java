@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.skillsync.exception.ResourceNotFound;
 import com.skillsync.model.Resource;
 import com.skillsync.model.Skill;
-import com.skillsync.model.UserSkill;
 import com.skillsync.repository.ResourceRepository;
 import com.skillsync.repository.SkillRepository;
 import com.skillsync.repository.UserSkillRepository;
@@ -126,13 +126,10 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.save(resource);
     }
 
-    /**
-     * ✅ Mark resource as completed & auto-update skill progress %
-     */
     @Override
     public Resource markResourceCompleted(Long resourceId) {
         Resource resource = resourceRepository.findById(resourceId)
-                .orElseThrow(() -> new IllegalArgumentException("Resource not found with id: " + resourceId));
+                .orElseThrow(() -> new ResourceNotFound("Resource not found with id: " + resourceId));
 
         // Step 1 → mark resource complete
         resource.setIsCompleted(true);
